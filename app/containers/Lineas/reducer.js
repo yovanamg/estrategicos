@@ -49,26 +49,7 @@ const initialState = fromJS({
   description: '',
   autorization: '',
   decision: false,
-  collaborators: [
-    {
-      nombre: 'Juan Pablo Soto',
-      number: '98689711',
-      job: 'Analista de Sistemas',
-      center: '974180',
-    },
-    {
-      nombre: 'Omar Sanchez Campaña',
-      number: '98689712',
-      job: 'Analista de Sistemas 2',
-      center: '974181',
-    },
-    {
-      nombre: 'Rafael Morales',
-      number: '98689712',
-      job: 'Analista de Sistemas 3',
-      center: '974182',
-    },
-  ],
+  idPlanta: '',
 });
 
 function lineasReducer(state = initialState, action) {
@@ -102,10 +83,10 @@ function lineasReducer(state = initialState, action) {
     case SAVE_COLLABORATOR:
       return state
         .set('collaborator', {
-          nombre: action.collaborator.nombre,
-          number: action.collaborator.number,
-          job: action.collaborator.job,
-          center: action.collaborator.center,
+          nombre: action.collaborator.nombre_completo,
+          number: action.collaborator.numero_empleado,
+          job: action.collaborator.puesto,
+          center: action.collaborator.centro,
         });
     case SAVE_DESCRIPTION:
       return state
@@ -128,10 +109,11 @@ function lineasReducer(state = initialState, action) {
     case GET_EMPLOYEE_SUCCESS:
       return state
         .set('solicitante', action.solicitante[0])
+        .set('idPlanta', action.idPlanta)
         .set('arrayCoordinators', action.array);
     case GET_EMPLOYEE_FAIL:
       return state
-      .set('snackbar', { open: true, text: action.error });
+        .set('snackbar', { open: true, text: action.error });
     default:
       return state;
   }

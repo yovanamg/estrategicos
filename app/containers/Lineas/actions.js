@@ -121,11 +121,11 @@ export function getEmployeeRequest(numemp) {
   };
 }
 
-
-export function getEmployeeSuccess(solicitante, array) {
+export function getEmployeeSuccess(solicitante, idPlanta, array) {
   return {
     type: GET_EMPLOYEE_SUCCESS,
     solicitante,
+    idPlanta,
     array,
   };
 }

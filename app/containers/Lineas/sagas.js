@@ -6,7 +6,6 @@ import {
   newLine,
   getEmployeeByNumemp,
   getObjectManager,
-  getIdCoordinators,
 } from './api';
 import {
   getLineasSuccess,
@@ -27,18 +26,11 @@ export function* watchGetEmployeeByNumemp(action) {
   try {
     const employee = yield call(getEmployeeByNumemp, action.numemp);
     const objectManager = yield call(getObjectManager, action.numemp);
-    const idPlanta = objectManager[0].id_planta;
-    const arrayCoordinators = yield call(getIdCoordinators, idPlanta);
-    console.log('arrayCoordinators1', arrayCoordinators);
-    yield put(getEmployeeSuccess(employee, arrayCoordinators));
+    yield put(getEmployeeSuccess(employee, objectManager.solicitante, objectManager.array));
   } catch (e) {
-    console.log('------------------------------------');
-    console.log('entra aca');
-    console.log('------------------------------------');
     yield put(getEmployeeFail(messages.employeeError));
   }
 }
-
 
 export function* watchGetLineas() {
   try {

@@ -20,4 +20,4 @@ export const SET_SNACKBAR_STATE = 'app/Lineas/SET_SNACKBAR_STATE';
 export const GET_EMPLOYEE_SUCCESS = 'app/Lineas/GET_EMPLOYEE_SUCCESS';
 export const GET_EMPLOYEE_FAIL = 'app/Lineas/GET_EMPLOYEE_FAIL';
 export const GET_EMPLOYEE_REQUEST = 'app/Lineas/GET_EMPLOYEE_REQUEST';
-
+export const GET_ID_COORDINATORS = 'app/Lineas/GET_ID_CORDINATORS';

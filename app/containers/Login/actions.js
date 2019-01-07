@@ -6,8 +6,6 @@
 
 import {
   DEFAULT_ACTION,
-  VALIDATE_CORREO_ACTION,
-  VALIDATE_PASSWORD_ACTION,
   LOGIN_ACTION,
   LOGIN_ACTION_SUCCESS,
   LOGIN_ACTION_FAIL,
@@ -19,22 +17,11 @@ export function defaultAction() {
     type: DEFAULT_ACTION,
   };
 }
-export function validateCorreoAction(payload) {
-  return {
-    type: VALIDATE_CORREO_ACTION,
-    payload,
-  };
-}
-export function validatePasswordAction(payload) {
-  return {
-    type: VALIDATE_PASSWORD_ACTION,
-    payload,
-  };
-}
-export function loginAction(email, password) {
+
+export function loginAction(username, password) {
   return {
     type: LOGIN_ACTION,
-    email,
+    username,
     password,
   };
 }

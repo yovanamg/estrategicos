@@ -7,8 +7,6 @@
 import { fromJS } from 'immutable';
 import {
   DEFAULT_ACTION,
-  VALIDATE_CORREO_ACTION,
-  VALIDATE_PASSWORD_ACTION,
   LOGIN_ACTION,
   LOGIN_ACTION_FAIL,
   SET_SNACKBAR_STATE,
@@ -16,11 +14,8 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  textoCorreo: '',
-  textoPass: '',
-  errorTextCorreo: '',
+  username: '',
   errorTextPass: '',
-  correo: '',
   password: '',
   snackbar: {
     open: false,
@@ -33,30 +28,15 @@ function loginReducer(state = initialState, action) {
   switch (action.type) {
     case DEFAULT_ACTION:
       return state;
-    case VALIDATE_CORREO_ACTION: {
-      const { texto } = action.payload;
-      return state.merge({
-        errorTextCorreo: action.payload.errorTextCorreo,
-        textoCorreo: texto,
-      });
-    }
-    case VALIDATE_PASSWORD_ACTION: {
-      const { texto } = action.payload;
-      return state.merge({
-        errorTextPass: action.payload.errorTextPass,
-        textoPass: texto,
-      });
-    }
     case LOGIN_ACTION: {
-      const textoCorreo = state.get('textoCorreo');
-      const textoPass = state.get('textoPass');
-      const errorTextCorreo = state.get('errorTextCorreo');
+      const username = state.get('username');
+      const password = state.get('password');
       const errorTextPass = state.get('errorTextPass');
 
-      if (!errorTextCorreo && !errorTextPass) {
+      if (!errorTextPass) {
         return state.merge({
-          correo: textoCorreo,
-          password: textoPass,
+          username,
+          password,
           loading: true,
         });
       }
@@ -64,8 +44,8 @@ function loginReducer(state = initialState, action) {
     }
     case LOGIN_ACTION_SUCCESS:
       return state
-        .set('textoCorreo', '')
-        .set('textoPass', '')
+        .set('username', '')
+        .set('password', '')
         .set('loading', false);
     case LOGIN_ACTION_FAIL: {
       const snackbarState = {

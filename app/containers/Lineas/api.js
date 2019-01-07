@@ -21,8 +21,3 @@ export const getObjectManager = (numemp) =>
   superagent
     .get(`${config.api.url}/ldm_planta/${numemp}`)
     .then((data) => data.body);
-
-export const getIdCoordinators = (idPlanta) =>
-  superagent
-    .get(`${config.api.url}/ldm_planta/${idPlanta}`)
-    .then((data) => data.body);

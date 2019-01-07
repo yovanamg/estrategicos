@@ -16,7 +16,6 @@ import { bindActionCreators } from 'redux';
 import makeSelectLogin from './selectors';
 import { EjemploCorreo } from './styledComponents';
 import * as Actions from './actions';
-import messages from './messages';
 import styles from './styles';
 import config from '../../config';
 
@@ -24,28 +23,6 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   state = {
     emailFocused: false,
     passwordFocused: false,
-  }
-
-  updateCorreo = (event) => {
-    const { validateCorreoAction } = this.props;
-    const { value } = event.target;
-    const { emptyField } = messages.error;
-    if (!value) {
-      validateCorreoAction({ errorTextCorreo: emptyField, texto: value });
-    } else {
-      validateCorreoAction({ errorTextCorreo: '', texto: value });
-    }
-  }
-
-  updatePassword = (event) => {
-    const { validatePasswordAction } = this.props;
-    const { value } = event.target;
-    const { emptyField } = messages.error;
-    if (!value) {
-      validatePasswordAction({ errorTextPass: emptyField, texto: value });
-    } else {
-      validatePasswordAction({ errorTextPass: '', texto: value });
-    }
   }
 
   validateNumeric(expression) {
@@ -58,17 +35,13 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   }
 
   handleOnPressButton = () => {
-    const { validateCorreoAction, validatePasswordAction, loginAction } = this.props;
-    const { textoCorreo, textoPass, errorTextCorreo, errorTextPass } = this.props.login;
-    if (!textoCorreo) {
-      validateCorreoAction({ errorTextCorreo: messages.error.emptyField, texto: '' });
-    }
-    if (!textoPass) {
-      validatePasswordAction({ errorTextPass: messages.error.emptyField, texto: '' });
-    }
-
-    if (!errorTextCorreo && !errorTextPass) {
-      loginAction(textoCorreo, textoPass);
+    const { loginAction } = this.props;
+    const { username, password, errorTextPass } = this.props.login;
+    if (!errorTextPass) {
+      console.log('------------------------------------');
+      console.log('entro2', username, password);
+      console.log('------------------------------------');
+      loginAction(username, password);
     }
   }
 
@@ -77,9 +50,13 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     setSnackbarState(false, '');
   }
 
-  handleKeyPress = (target) => {
-    const { textoPass, loading } = this.props.login;
-    if (target.charCode === 13 && textoPass.length >= 8 && textoPass.length <= 30 && !loading) {
+  handleKeyPress = (event) => {
+    const { loading } = this.props.login;
+    console.log('------------------------------------');
+    console.log('event', event.target.value);
+    console.log('------------------------------------');
+    const { value } = event.target;
+    if (value.length >= 4 && value.length <= 30 && !loading) {
       this.handleOnPressButton();
     }
   };
@@ -98,7 +75,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       <div>
         <div>
           <TextField
-            floatingLabelText="Correo electrónico"
+            floatingLabelText="Nombre usuario"
             floatingLabelStyle={
               this.state.emailFocused ?
               styles.textfield.correo.labelStyleFocused :
@@ -120,14 +97,13 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
           floatingLabelStyle={this.state.passwordFocused ? styles.textfield.password.labelStyleFocused : styles.textfield.password.label}
           type="password"
           fullWidth
-          onChange={this.updatePassword}
+          onChange={this.handleKeyPress}
           style={styles.textfield.password}
           errorText={errorTextPass}
           errorStyle={styles.textfield.password.errorStyle}
           underlineShow={false}
           maxLength={30}
           inputStyle={this.state.passwordFocused ? styles.textfield.password.inputStyleFocused : styles.textfield.password.inputStyle}
-          onKeyPress={(target) => this.handleKeyPress(target)}
           onFocus={() => this.setState({ passwordFocused: true })}
           onBlur={() => this.setState({ passwordFocused: false })}
         />
@@ -157,12 +133,9 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
 Login.propTypes = {
   login: PropTypes.object.isRequired,
-  errorTextCorreo: PropTypes.string,
   errorTextPass: PropTypes.string,
-  textoCorreo: PropTypes.string,
-  textoPass: PropTypes.string,
-  validatePasswordAction: PropTypes.func,
-  validateCorreoAction: PropTypes.func,
+  username: PropTypes.string,
+  password: PropTypes.string,
   loginAction: PropTypes.func,
   setSnackbarState: PropTypes.func,
 };

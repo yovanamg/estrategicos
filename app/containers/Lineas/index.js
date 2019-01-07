@@ -79,23 +79,23 @@ export class Lineas extends React.Component { // eslint-disable-line react/prefe
     decision: false,
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { dispatch } = this.props;
     const numemp = '92157629';
-    console.log('------------------------------------');
-    console.log('heeeey');
-    console.log('------------------------------------');
     dispatch(getEmployeeRequest(numemp));
   }
 
   getCollaborators = () => {
-    const { Lineas: { collaborators } } = this.props;
+    const { Lineas: { arrayCoordinators } } = this.props;
+    console.log('------------------------------------');
+    console.log('arrayCoordinators', arrayCoordinators);
+    console.log('------------------------------------');
     const Collaborators =
-      collaborators.map((item, index) => (
+      arrayCoordinators.map((item, index) => (
         <MenuItem
           key={index + 1}
-          value={item.nombre}
-          primaryText={item.nombre}
+          value={item.nombre_completo}
+          primaryText={item.nombre_completo}
           onClick={this.handleSaveCollaborator(item)}
         />
       ));
@@ -146,6 +146,7 @@ export class Lineas extends React.Component { // eslint-disable-line react/prefe
       equipo_entregado: '',
     };
     dispatch(getLineaRequest(body));
+    this.handleCancel();
   }
 
   handleCancel = () => {
@@ -162,12 +163,6 @@ export class Lineas extends React.Component { // eslint-disable-line react/prefe
 
   handleOpenModal = () => {
     const { dispatch, Lineas: { showModal } } = this.props;
-    const collaborator = { nombre: '', number: '', job: '', center: '' };
-    dispatch(saveCollaborator(collaborator));
-    dispatch(saveLada(''));
-    dispatch(saveAutorization(''));
-    dispatch(saveDecision(false));
-    dispatch(saveDescription(''));
     dispatch(openModal(!showModal));
   }
 
@@ -217,11 +212,10 @@ export class Lineas extends React.Component { // eslint-disable-line react/prefe
     const {
       Lineas: {
         lineas, loading, showModal, snackbar, loadingLineas, subLoading,
-        solicitante, collaborator, loadingCollaborator, collaborators,
+        solicitante, collaborator, loadingCollaborator,
         lada, autorization, description, decision, arrayCoordinators,
       },
     } = this.props;
-    console.log('arrayCoordinators2', arrayCoordinators);
     const { selectedCollaborator } = this.state;
     const f = new Date();
     const nombreDia = nth(diasSemana, f.getDay());
@@ -323,7 +317,7 @@ export class Lineas extends React.Component { // eslint-disable-line react/prefe
         </TitleContainer>
         <FormContainer>{messages.name}</FormContainer>
         {
-          !loadingCollaborator && collaborators &&
+          !loadingCollaborator && arrayCoordinators &&
           <DropDownMenu
             underlineStyle={styles.dropDownMenuUnderline}
             value={selectedCollaborator}
