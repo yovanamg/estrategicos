@@ -10,6 +10,8 @@ import {
   LOGIN_ACTION_SUCCESS,
   LOGIN_ACTION_FAIL,
   SET_SNACKBAR_STATE,
+  SAVE_USERNAME,
+  SAVE_PASSWORD,
 } from './constants';
 
 export function defaultAction() {
@@ -36,6 +38,20 @@ export function loginActionFail(error) {
   return {
     type: LOGIN_ACTION_FAIL,
     error,
+  };
+}
+
+export function saveUsername(username) {
+  return {
+    type: SAVE_USERNAME,
+    username,
+  };
+}
+
+export function savePassword(password) {
+  return {
+    type: SAVE_PASSWORD,
+    password,
   };
 }
 

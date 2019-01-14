@@ -11,12 +11,14 @@ import {
   LOGIN_ACTION_FAIL,
   SET_SNACKBAR_STATE,
   LOGIN_ACTION_SUCCESS,
+  SAVE_USERNAME,
+  SAVE_PASSWORD,
 } from './constants';
 
 const initialState = fromJS({
   username: '',
-  errorTextPass: '',
   password: '',
+  errorTextPass: '',
   snackbar: {
     open: false,
     text: '',
@@ -64,6 +66,12 @@ function loginReducer(state = initialState, action) {
       };
       return state.set('snackbar', snackbarState);
     }
+    case SAVE_USERNAME:
+      return state
+        .set('username', action.username);
+    case SAVE_PASSWORD:
+      return state
+        .set('password', action.password);
     default:
       return state;
   }

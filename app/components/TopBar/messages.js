@@ -11,7 +11,7 @@ export default defineMessages({
     defaultMessage: 'This is the TopBar component !',
   },
   menuOptions: {
-    lineas: 'Solicitud de Lineas',
+    lineas: 'Líneas Telefónicas',
     banco: 'BanCoppel',
   },
 });

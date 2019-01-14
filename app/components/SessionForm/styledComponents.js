@@ -11,9 +11,9 @@ export const Container = styled.div`
 
 export const Form = styled.div`
   height: 350px;
-  width: 550px;
+  width: 450px;
   background: #ffffff;
-  padding: 10px 40px 10px 40px;
+  padding: 25px 40px 10px 40px;
   border-radius: 25px;
   display: flex;
   flex-direction: column;
@@ -31,7 +31,8 @@ export const Logo = styled.div`
 `;
 
 export const Content = styled.div`
-  height: 50%;
+  height: 40%;
+  margin: 0 15% 0 15%;
 `;
 
 export const DivButton = styled.div`
@@ -49,5 +50,4 @@ export const ActionButton = styled(FlatButton)`
 
 export const ImgLogo = styled.img`
   width: 50%;
-  border-radius: 70px;
 `;

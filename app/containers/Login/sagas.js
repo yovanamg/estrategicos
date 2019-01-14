@@ -18,13 +18,10 @@ export function* watchLogin(action) {
     username,
     password,
   };
-  console.log('------------------------------------');
-  console.log('credentials', credentials);
-  console.log('------------------------------------');
   try {
     yield call(loginService, credentials);
-    const userToSave = { username: 'administrador' };
-    yield localStorage.setItem('user', JSON.stringify(userToSave));
+    credentials.rol = 'Admin';
+    yield localStorage.setItem('user', JSON.stringify(credentials));
     yield put(loginActionSuccess());
     browserHistory.push('/home');
   } catch (e) {

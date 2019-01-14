@@ -57,9 +57,11 @@ import {
   FormContainerRightSide,
   Title,
   TwoItems,
+  TitleQuestion,
 } from './styledComponents';
 import {
   openModal,
+  openModalFirma,
   saveLada,
   saveCollaborator,
   saveDescription,
@@ -68,6 +70,8 @@ import {
   getLineaRequest,
   setSnackbarState,
   getEmployeeRequest,
+  getEquipoRequest,
+  saveLinea,
 } from './actions';
 import { styles } from './styles';
 const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -87,9 +91,6 @@ export class Lineas extends React.Component { // eslint-disable-line react/prefe
 
   getCollaborators = () => {
     const { Lineas: { arrayCoordinators } } = this.props;
-    console.log('------------------------------------');
-    console.log('arrayCoordinators', arrayCoordinators);
-    console.log('------------------------------------');
     const Collaborators =
       arrayCoordinators.map((item, index) => (
         <MenuItem
@@ -145,7 +146,11 @@ export class Lineas extends React.Component { // eslint-disable-line react/prefe
       responsiva: 'No',
       equipo_entregado: '',
     };
-    dispatch(getLineaRequest(body));
+    const data = {
+      solicitante,
+      collaborator,
+    };
+    dispatch(getLineaRequest(body, data));
     this.handleCancel();
   }
 
@@ -164,6 +169,14 @@ export class Lineas extends React.Component { // eslint-disable-line react/prefe
   handleOpenModal = () => {
     const { dispatch, Lineas: { showModal } } = this.props;
     dispatch(openModal(!showModal));
+  }
+
+  handleOpenModalFirma = (linea) => () => {
+    const { dispatch, Lineas: { showModalFirma } } = this.props;
+    const solicitudId = linea.id;
+    dispatch(saveLinea(linea));
+    dispatch(getEquipoRequest(solicitudId));
+    dispatch(openModalFirma(!showModalFirma));
   }
 
   handleRequestCloseSnackBar = () => {
@@ -199,10 +212,7 @@ export class Lineas extends React.Component { // eslint-disable-line react/prefe
         <UserItem
           key={linea.id}
           linea={linea}
-          addProject={() => this.handleAddProject(linea.id)}
-          editClient={() => this.handleClickUpdate(linea)}
-          detailClient={() => this.handleRedirectDetail(linea)}
-          storeUser={() => this.handleOpenStoreDialog(linea)}
+          detailsLinea={this.handleOpenModalFirma(linea)}
         />
       );
     });
@@ -212,8 +222,9 @@ export class Lineas extends React.Component { // eslint-disable-line react/prefe
     const {
       Lineas: {
         lineas, loading, showModal, snackbar, loadingLineas, subLoading,
-        solicitante, collaborator, loadingCollaborator,
+        solicitante, collaborator, loadingCollaborator, showModalFirma,
         lada, autorization, description, decision, arrayCoordinators,
+        equipo, linea,
       },
     } = this.props;
     const { selectedCollaborator } = this.state;
@@ -222,6 +233,9 @@ export class Lineas extends React.Component { // eslint-disable-line react/prefe
     const numeroDia = f.getDate();
     const mes = nth(meses, f.getMonth());
     const anio = f.getFullYear();
+    console.log('------------------------------------');
+    console.log('equipo', equipo);
+    console.log('------------------------------------');
     const solicitudActions = (
       [
         <StyledFlatButton
@@ -426,10 +440,76 @@ export class Lineas extends React.Component { // eslint-disable-line react/prefe
         />
       </Dialog>
     );
+
+    const detailsFirma = (
+      <Dialog
+        modal
+        actions={solicitudActions}
+        open={showModalFirma}
+        autoScrollBodyContent
+        contentStyle={dialogStyles.smallContentStyle}
+      >
+        <DialogTitleContainer>
+          <DialogTitle>{messages.detailsTitle}</DialogTitle>
+          <StyledClosedIcon onClick={this.handleOpenModalFirma} style={closeIconStyle} />
+        </DialogTitleContainer>
+        <TitleContainer>
+          <Number>1</Number>
+          <Title>{messages.information}</Title>
+        </TitleContainer>
+        <FormContainer>{messages.characteristics}</FormContainer>
+        <TwoItems>
+          <FormContainerLeftSide>{messages.marca}</FormContainerLeftSide>
+          <FormContainerRightSide>{messages.model}</FormContainerRightSide>
+        </TwoItems>
+        <TwoItems>
+          <TextField
+            underlineShow={false}
+            style={styles.InputLeftSide}
+            disabled
+            inputStyle={styles.textField}
+            value={equipo.marca_cel}
+          />
+          <TextField
+            underlineShow={false}
+            style={styles.InputRightSide}
+            disabled
+            inputStyle={styles.textField}
+            value={equipo.modelo}
+          />
+        </TwoItems>
+        <TwoItems>
+          <FormContainerLeftSide>{messages.numberCel}</FormContainerLeftSide>
+          <FormContainerRightSide>{messages.imei}</FormContainerRightSide>
+        </TwoItems>
+        <TwoItems>
+          <TextField
+            underlineShow={false}
+            style={styles.InputLeftSide}
+            disabled
+            inputStyle={styles.textField}
+            value={equipo.num_cel}
+          />
+          <TextField
+            underlineShow={false}
+            style={styles.InputRightSide}
+            disabled
+            inputStyle={styles.textField}
+            value={equipo.imei}
+          />
+        </TwoItems>
+        <TitleContainer>
+          <Number>2</Number>
+          <Title>{messages.responive}</Title>
+        </TitleContainer>
+        <TitleQuestion>{messages.question}</TitleQuestion>
+        <FormContainer>{linea.responsiva}</FormContainer>
+      </Dialog>
+    );
     return (
       <div>
         <Helmet
-          title="Solicitud de Líneas"
+          title="Líneas Telefónicas"
           meta={[
             { name: 'description', content: 'Lineas' },
           ]}
@@ -484,6 +564,7 @@ export class Lineas extends React.Component { // eslint-disable-line react/prefe
               </ContainerEmpty>
             }
             {addSolicitudDialog}
+            {detailsFirma}
             <Snackbar
               open={snackbar.open}
               message={snackbar.text}

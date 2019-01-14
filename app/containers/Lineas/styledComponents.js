@@ -37,6 +37,16 @@ export const Title = styled.div`
   color: #555555;
 `;
 
+export const TitleQuestion = styled.div`
+  margin: 15px 0 0 7.5%;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  color: #555555;
+  width: 26%;
+  float: left;
+`;
+
 export const LineasContainer = styled.div`
   background-color: #f3f3f3;
   width: 100%;
@@ -59,11 +69,12 @@ export const StyledFlatButton = styled(FlatButton)`
 export const DialogTitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 `;
 
 export const DialogTitle = styled.div`
   font-size: 24px;
+  margin-left: 7%;
   font-family: ${font};
   font-weight: 800;
   color: #494949;
@@ -74,6 +85,7 @@ export const FormContainer = styled.div`
   justify-content: space-between;
   margin: 10px 0 5px 50px;
   color: #006abb;
+  line-height: 2.3;
 `;
 
 export const FormContainerLeftSide = styled.div`

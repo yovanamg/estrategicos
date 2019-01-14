@@ -86,7 +86,7 @@ export const IconSection = styled.div`
 `;
 
 export const IconSectionSelected = styled.div`
-  width: 15%;
+  width: 50%%;
   height: 100%;
   display: flex;
   align-items: center;

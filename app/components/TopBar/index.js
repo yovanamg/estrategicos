@@ -12,6 +12,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import homeLogo from 'components/Icons/bancoppel-logo.png';
+import { mapRolesToPretty } from 'utils/usersRoles';
 import messages from './messages';
 import styles from './styles';
 import { TopBarSection,
@@ -37,6 +38,9 @@ class TopBar extends React.Component { // eslint-disable-line react/prefer-state
   whiteColor = '#fff';
   searcherContentColor = '#a6e5c1';
   userImageUrl = 'https://icon-icons.com/icons2/11/PNG/256/child_person_people_guy_1721.png';
+  user = JSON.parse(localStorage.getItem('user'));
+  userName = this.user ? `${this.user.username} ` : '';
+  userRole = this.user ? mapRolesToPretty(this.user.rol) : '';
   handleLogout = () => {
     localStorage.removeItem('user');
     browserHistory.replace('/');
@@ -44,8 +48,6 @@ class TopBar extends React.Component { // eslint-disable-line react/prefer-state
 
   render() {
     const { selectedItem } = this.props;
-    const userName = 'Moises Mar';
-    const userRole = 'Coordinador';
     const Banco = selectedItem === messages.menuOptions.banco ? IconSectionSelected : IconSection;
     const Option = selectedItem === messages.menuOptions.lineas ? MenuOptionSelected : MenuOption;
     return (
@@ -69,10 +71,10 @@ class TopBar extends React.Component { // eslint-disable-line react/prefer-state
             <ProfileSection>
               <DataSection>
                 <UserName>
-                  {userName}
+                  {this.userName}
                 </UserName>
                 <UserRole>
-                  {userRole}
+                  {this.userRole}
                 </UserRole>
               </DataSection>
               <AvatarSection>

@@ -32,7 +32,7 @@ export class MainLayout extends React.Component { // eslint-disable-line react/p
 
   render() {
     const { showModal } = this.state;
-    let selectedItem = messages.menuOptions.lineas;
+    let selectedItem = messages.menuOptions.banco;
     if (window.location.pathname.toString().includes('administracion-lineas')) {
       selectedItem = messages.menuOptions.lineas;
     }

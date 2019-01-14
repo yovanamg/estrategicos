@@ -10,9 +10,4 @@ export default defineMessages({
     id: 'app.containers.Login.header',
     defaultMessage: 'This is Login container !',
   },
-  error: {
-    emptyField: 'Favor de completar este campo',
-    numbers: 'Solo números',
-    minimumChars: 'Deben ser cuatro caracteres',
-  },
 });

@@ -11,7 +11,7 @@ export default defineMessages({
     defaultMessage: 'This is MainLayout container !',
   },
   menuOptions: {
-    lineas: 'Solicitud de Lineas',
+    lineas: 'Líneas Telefónicas',
     banco: 'BanCoppel',
   },
   buttons: {

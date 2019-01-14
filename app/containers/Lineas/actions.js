@@ -7,6 +7,7 @@
 import {
   DEFAULT_ACTION,
   OPEN_MODAL,
+  OPEN_MODAL_FIRMA,
   SAVE_LADA,
   SAVE_COLLABORATOR,
   SAVE_DESCRIPTION,
@@ -21,6 +22,10 @@ import {
   GET_EMPLOYEE_REQUEST,
   GET_EMPLOYEE_SUCCESS,
   GET_EMPLOYEE_FAIL,
+  GET_EQUIPO_REQUEST,
+  GET_EQUIPO_SUCCESS,
+  GET_EQUIPO_FAIL,
+  SAVE_LINEA,
 } from './constants';
 
 export function defaultAction() {
@@ -46,6 +51,13 @@ export function getLineasFail(error) {
 export function openModal(open) {
   return {
     type: OPEN_MODAL,
+    open,
+  };
+}
+
+export function openModalFirma(open) {
+  return {
+    type: OPEN_MODAL_FIRMA,
     open,
   };
 }
@@ -85,10 +97,18 @@ export function saveDecision(decision) {
   };
 }
 
-export function getLineaRequest(body) {
+export function getLineaRequest(body, data) {
   return {
     type: GET_LINEA_REQUEST,
     body,
+    data,
+  };
+}
+
+export function getEquipoRequest(solicitudId) {
+  return {
+    type: GET_EQUIPO_REQUEST,
+    solicitudId,
   };
 }
 
@@ -102,6 +122,20 @@ export function getLineaSuccess(message) {
 export function getLineaFail(error) {
   return {
     type: GET_LINEA_FAIL,
+    error,
+  };
+}
+
+export function getEquipoSuccess(equipo) {
+  return {
+    type: GET_EQUIPO_SUCCESS,
+    equipo,
+  };
+}
+
+export function getEquipoFail(error) {
+  return {
+    type: GET_EQUIPO_FAIL,
     error,
   };
 }
@@ -134,5 +168,12 @@ export function getEmployeeFail(error) {
   return {
     type: GET_EMPLOYEE_FAIL,
     error,
+  };
+}
+
+export function saveLinea(linea) {
+  return {
+    type: SAVE_LINEA,
+    linea,
   };
 }

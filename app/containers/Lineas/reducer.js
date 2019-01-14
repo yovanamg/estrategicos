@@ -10,6 +10,7 @@ import {
   GET_LINEAS_SUCCESS,
   GET_LINEAS_FAIL,
   OPEN_MODAL,
+  OPEN_MODAL_FIRMA,
   SAVE_LADA,
   SAVE_COLLABORATOR,
   SAVE_DESCRIPTION,
@@ -20,6 +21,9 @@ import {
   SET_SNACKBAR_STATE,
   GET_EMPLOYEE_SUCCESS,
   GET_EMPLOYEE_FAIL,
+  GET_EQUIPO_SUCCESS,
+  GET_EQUIPO_FAIL,
+  SAVE_LINEA,
 } from './constants';
 
 const initialState = fromJS({
@@ -32,6 +36,7 @@ const initialState = fromJS({
   },
   loading: false,
   showModal: false,
+  showModalFirma: false,
   subLoading: false,
   solicitante: {
     numemp: '00000000',
@@ -50,6 +55,8 @@ const initialState = fromJS({
   autorization: '',
   decision: false,
   idPlanta: '',
+  equipo: {},
+  linea: {},
 });
 
 function lineasReducer(state = initialState, action) {
@@ -59,6 +66,9 @@ function lineasReducer(state = initialState, action) {
     case OPEN_MODAL:
       return state
         .set('showModal', action.open);
+    case OPEN_MODAL_FIRMA:
+      return state
+        .set('showModalFirma', action.open);
     case GET_LINEAS_SUCCESS: {
       const data = action.users;
       return state
@@ -103,6 +113,12 @@ function lineasReducer(state = initialState, action) {
     case GET_LINEA_FAIL:
       return state
         .set('snackbar', { open: true, text: action.error });
+    case GET_EQUIPO_SUCCESS:
+      return state
+        .set('equipo', action.equipo[0]);
+    case GET_EQUIPO_FAIL:
+      return state
+        .set('snackbar', { open: true, text: action.error });
     case SET_SNACKBAR_STATE:
       return state
         .set('snackbar', { open: action.open, text: action.text });
@@ -114,6 +130,9 @@ function lineasReducer(state = initialState, action) {
     case GET_EMPLOYEE_FAIL:
       return state
         .set('snackbar', { open: true, text: action.error });
+    case SAVE_LINEA:
+      return state
+        .set('linea', action.linea);
     default:
       return state;
   }

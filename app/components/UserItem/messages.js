@@ -11,9 +11,6 @@ export default defineMessages({
     defaultMessage: 'This is the UserItem component !',
   },
   buttons: {
-    add: 'Agregar proyecto',
-    detail: 'Detalle cliente',
-    edit: 'Editar',
-    store: 'Eliminar',
+    details: 'Detalles',
   },
 });

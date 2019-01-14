@@ -21,3 +21,14 @@ export const getObjectManager = (numemp) =>
   superagent
     .get(`${config.api.url}/ldm_planta/${numemp}`)
     .then((data) => data.body);
+
+export const sendEmail = (body) =>
+  superagent
+    .post(`${config.api.url}/email_solicitud`)
+    .send(body)
+    .then((data) => data.body);
+
+export const getEquipo = (solicitudId) =>
+superagent
+  .get(`${config.api.url}/equipo/${solicitudId}`)
+  .then((data) => data.body);

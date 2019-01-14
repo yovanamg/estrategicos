@@ -5,9 +5,8 @@ const styles = {
   textfield: {
     correo: {
       float: 'left',
-      width: '60%',
+      width: '100%',
       height: '100%',
-      marginBottom: '10px',
       fontFamily: `${font}`,
       border: `1px solid ${greyColor}`,
       borderRadius: '4px',
@@ -40,14 +39,12 @@ const styles = {
     correoFocused: {
       float: 'left',
       fontFamily: `${font}`,
-      width: '60%',
+      width: '100%',
       height: '100%',
-      marginBottom: '10px',
       border: `1px solid ${blueColor}`,
       borderRadius: '4px',
     },
     password: {
-      marginBottom: '10px',
       inputStyle: {
         border: `1px solid ${greyColor}`,
         borderRadius: '4px',
@@ -60,7 +57,7 @@ const styles = {
       inputStyleFocused: {
         border: `1px solid ${blueColor}`,
         borderRadius: '4px',
-        height: '28px',
+        height: '35px',
         bottom: '-18px',
         fontSize: '25px',
         fontFamily: `${font}`,

@@ -14,10 +14,8 @@ import { TextField } from 'material-ui';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 import makeSelectLogin from './selectors';
-import { EjemploCorreo } from './styledComponents';
 import * as Actions from './actions';
 import styles from './styles';
-import config from '../../config';
 
 export class Login extends React.Component { // eslint-disable-line react/prefer-stateless-function
   state = {
@@ -25,22 +23,10 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     passwordFocused: false,
   }
 
-  validateNumeric(expression) {
-    const regEx = /^[0-9\s]+$/i;
-    return regEx.test(expression);
-  }
-
-  validateLength(value) {
-    return value.length > 4;
-  }
-
   handleOnPressButton = () => {
     const { loginAction } = this.props;
-    const { username, password, errorTextPass } = this.props.login;
+    const { errorTextPass, username, password } = this.props.login;
     if (!errorTextPass) {
-      console.log('------------------------------------');
-      console.log('entro2', username, password);
-      console.log('------------------------------------');
       loginAction(username, password);
     }
   }
@@ -50,14 +36,12 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     setSnackbarState(false, '');
   }
 
-  handleKeyPress = (event) => {
-    const { loading } = this.props.login;
-    console.log('------------------------------------');
-    console.log('event', event.target.value);
-    console.log('------------------------------------');
-    const { value } = event.target;
-    if (value.length >= 4 && value.length <= 30 && !loading) {
-      this.handleOnPressButton();
+  handleChange = (e) => {
+    const { saveUsername, savePassword } = this.props;
+    if (e.target.name === 'username') {
+      saveUsername(e.target.value);
+    } else if (e.target.name === 'password') {
+      savePassword(e.target.value);
     }
   };
 
@@ -66,9 +50,9 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       errorTextCorreo,
       errorTextPass,
       snackbar,
-      textoCorreo,
-      textoPass,
       loading,
+      username,
+      password,
     } = this.props.login;
 
     const contenido = (
@@ -81,23 +65,24 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
               styles.textfield.correo.labelStyleFocused :
               styles.textfield.correo.labelStyle
             }
+            name="username"
             style={this.state.emailFocused ? styles.textfield.correoFocused : styles.textfield.correo}
             errorText={errorTextCorreo}
-            onChange={this.updateCorreo}
+            onChange={this.handleChange}
             errorStyle={styles.textfield.correo.errorStyle}
             inputStyle={styles.textfield.correo.inputStyle}
             underlineShow={false}
             onFocus={() => this.setState({ emailFocused: true })}
             onBlur={() => this.setState({ emailFocused: false })}
           />
-          <EjemploCorreo className={'desc'}>{config.emailDomain}</EjemploCorreo>
         </div>
         <TextField
           floatingLabelText="Ingresa tu contraseña"
           floatingLabelStyle={this.state.passwordFocused ? styles.textfield.password.labelStyleFocused : styles.textfield.password.label}
           type="password"
+          name="password"
           fullWidth
-          onChange={this.handleKeyPress}
+          onChange={this.handleChange}
           style={styles.textfield.password}
           errorText={errorTextPass}
           errorStyle={styles.textfield.password.errorStyle}
@@ -124,7 +109,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
         contenido={contenido}
         labelButton="Ingresar"
         onPressButton={this.handleOnPressButton}
-        buttonDisabled={!textoCorreo || textoPass.length < 8}
+        buttonDisabled={!username || password.length < 4}
         paso={1}
       />
     );
@@ -138,6 +123,8 @@ Login.propTypes = {
   password: PropTypes.string,
   loginAction: PropTypes.func,
   setSnackbarState: PropTypes.func,
+  saveUsername: PropTypes.func,
+  savePassword: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
